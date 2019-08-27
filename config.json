@@ -1,0 +1,29 @@
+[
+	{
+        "name": "DrunkenBot",
+        "version": "0.0.1",
+        "description": "Just a simple bot doing bot stuff",
+        "main":"index.js",
+        "author": "Laurens van Coeverden",
+        "prefix": "!",
+		"message": "446409003136712726",
+		"channel": "414617785415630855",
+        "disjoint": false,
+        "category": "615882313129000981",
+        "guild": "615520568560844830",
+		"reactions": [
+			{
+				"emoji": "🤔",
+				"roles": [
+					"446783613439311882"
+				]
+			},
+			{
+				"emoji": "b26:441046394493599764",
+				"roles": [
+					"446783667084197910"
+				]
+			}
+		]
+	}
+]
