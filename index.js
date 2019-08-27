@@ -1,5 +1,5 @@
 const Discord = require('discord.js');
-const couldbetoken = require("./nottoken.json");
+const couldbetoken = require("./recipe.json");
 const config = require("./config.json");
 
 const client =  new Discord.Client();

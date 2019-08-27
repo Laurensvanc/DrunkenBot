@@ -1,4 +1,4 @@
-# Logs
+	# Logs
 logs
 *.log
 npm-debug.log*
@@ -60,5 +60,5 @@ typings/
 # next.js build output
 .next
 
-# don't read my recipe!
-.nottoken.json
+# Don't read my recipe!
+recipe.json
