@@ -1,37 +1,17 @@
 const Discord = require('discord.js');
 const couldbetoken = require("./recipe.json");
 const config = require("./config.json");
+const setting = require("./settings.json");
 
 const client =  new Discord.Client();
 
 client.on('message', async (message) => {
 
-    if(message.content === 'Alive?'){
-        message.channel.send("Yes, I am.");
-    }   
-
-    if(message.content === 'Creator?') {
-        message.channel.send(`${config.author[0]}`);
-    }
-
-    if(message.content === "Prefix?") {
-        message.channel.send(`The prefix is: ${config.prefix}`);
-    }
-
-    if(message.content === "Name?") {
-        message.channel.send(`My name is ${config.prefix}`);
-    }
-
-    if(message.content === "Ping?") {
-        const m = await message.channel.send("Ping?");
-        m.edit(`Pong! Latency is ${m.createdTimestamp - message.createdTimestamp}ms. API Latency is ${Math.round(client.ping)}ms`);
-    }
-
     if(message.author.bot) return;
 
-    if(message.content.indexOf(config.prefix) !== 0) return;
+    if(message.content.indexOf(setting.prefix) !== 0) return;
 
-    const args = message.content.slice(config.prefix.length).trim().split(/ +/g);
+    const args = message.content.slice(setting.prefix.length).trim().split(/ +/g);
     const command = args.shift().toLowerCase();    
 
     if(command === "test") {
@@ -125,4 +105,4 @@ client.on("ready", () => {
     client.user.setActivity(`Serving ${client.guilds.size} servers`);
   });
 
-client.login(couldbetoken.maybetoken);
+client.login(couldbetoken.nottoken);

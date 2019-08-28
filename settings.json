@@ -1,0 +1,8 @@
+{
+    "name": "DrunkenBot",
+    "version": "0.0.1",
+    "description": "Just a simple bot doing bot stuff",
+    "main":"index.js",
+    "author": "Laurens van Coeverden",
+    "prefix": "!"
+}

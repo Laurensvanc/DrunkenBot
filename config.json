@@ -1,11 +1,5 @@
 [
 	{
-        "name": "DrunkenBot",
-        "version": "0.0.1",
-        "description": "Just a simple bot doing bot stuff",
-        "main":"index.js",
-        "author": "Laurens van Coeverden",
-        "prefix": "!",
 		"message": "446409003136712726",
 		"channel": "414617785415630855",
         "disjoint": false,
