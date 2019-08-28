@@ -14,23 +14,16 @@ client.on('message', async (message) => {
     const args = message.content.slice(setting.prefix.length).trim().split(/ +/g);
     const command = args.shift().toLowerCase();    
 
-    if(command === "test") {
-       message.channel.send("Henlo?");
+    if(command === "alive") {
+       message.channel.send(`I sure am! ${message.member}`);
     }
 
     if(command === "ping") {
         const m = await message.channel.send("Ping?");
         m.edit(`Pong! Latency is ${m.createdTimestamp - message.createdTimestamp}ms. API Latency is ${Math.round(client.ping)}ms`);
-    }
-});
+	}
 
-client.on('message', (message) => {
-
-    if(message.content.startsWith('/create')){
-        message.channel.send(`Your voicechannel will be created ${message.member}`);
-    }  
-     //check if message starts with "/create" 
- 	if(!message.content.startsWith("/create")) return;
+ 	if(!command === "create") return;
  	if(!message.member) return;
  	var test;
  	for(var bundle of config){
@@ -38,46 +31,46 @@ client.on('message', (message) => {
  			test = bundle;
  			break;
  		}
- 	}
-
- 	message.guild.createChannel(
- 		`${message.member.displayName} voicechannel!`,
- 		"voice",
- 		[
- 			{	//make creator of channel owner (aka gib perms)
- 				type: "member",
- 				id: message.member.id,
- 				allow: 17825808
- 			},
- 			{	//hide for everyone temporarily so the channel list doesn't fucking earthquake like a diabetic after downing 3 monsters - this is a permament temporary workaround until D.JS v12 gets released
- 				type: "role",
- 				id: message.guild.defaultRole,
- 				deny: 1024
- 			}
- 		],
- 		(`Created by ${message.member.displayName} via /create command`)
- 	)
- 		.catch(error => console.log(error))
- 		.then(channel=>{
- 			deleteEmptyChannelAfterDelay(channel);
- 			channel.setParent(config[0].category)
- 				.catch(error => console.log(error))
- 				.finally(function(){	//move channel in voice category
- 					channel.setPosition(message.guild.channels.get(config[0].category).children.size - config[0].position)
- 						.catch(error => console.log(error))
- 						.finally(function(){ //move channel to correct position
- 							channel.permissionOverwrites.get(message.guild.defaultRole.id).delete()
- 								.catch(error => console.log(error))
- 								.then(function(){ //delete overwrite for @everyone (make channel visible again)
- 									channel.createInvite()
- 										.catch(error => console.log(error))
- 										.then((invite) => {
- 											client.channels.get("321449537413578752").send(`Created ${channel.name} for ${message.member} - ${invite} <- join link to go into the VC`);
- 										});
- 								});
- 						});
- 				});
- 		});
+	 }
+	 
+	 message.guild.createChannel(
+		`${message.member.displayName}'s voicechannel!`,
+		"voice",
+		[
+			{
+				type: "member",
+				id: message.member.id,
+				allow: 17825808
+			},
+			{
+				type: "role",
+				id: message.guild.defaultRole,
+				deny: 1024
+			}
+		],
+		(`Created by ${message.member.displayName} via ${setting.prefix}create command`)
+	)
+		.catch(error => console.log(error))
+		.then(channel=>{
+			deleteEmptyChannelAfterDelay(channel);
+			channel.setParent(config[0].category)
+				.catch(error => console.log(error))
+				.finally(function(){
+					channel.setPosition(message.guild.channels.get(config[0].category).children.size - config[0].position)
+						.catch(error => console.log(error))
+						.finally(function(){
+							channel.permissionOverwrites.get(message.guild.defaultRole.id).delete()
+								.catch(error => console.log(error))
+								.then(function(){
+									channel.createInvite()
+										.catch(error => console.log(error))
+										.then((invite) => {
+											client.channels.get("321449537413578752").send(`Created ${channel.name} for ${message.member} - ${invite} <- join link to go into the VC`);
+										});
+								});
+						});
+				});
+		});
 
 });
 
@@ -85,17 +78,17 @@ client.on('message', (message) => {
  	deleteEmptyChannelAfterDelay(oldMember.voiceChannel);
  });
 
- function deleteEmptyChannelAfterDelay(voiceChannel, delayMS = 10000){
+ function deleteEmptyChannelAfterDelay(voiceChannel, delayMS = 12000){
  	if(!voiceChannel) return;
  	if(voiceChannel.members.first()) return;
  	if(!voiceChannel.health) voiceChannel.health = 0;
  	voiceChannel.health += 1;
- 	setTimeout(function(){	//queue channel for deletion and wait
+ 	setTimeout(function(){
  		if(!voiceChannel) return;
  		if(voiceChannel.members.first()) return;
  		voiceChannel.health -= 1;
  		if(voiceChannel.health > 0) return;
- 		voiceChannel.delete()	//delete channel
+ 		voiceChannel.delete()
  			.catch(error => console.log(error));
  	}, delayMS);
  }
